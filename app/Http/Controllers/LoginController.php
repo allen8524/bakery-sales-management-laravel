@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Member;
 
 
@@ -16,9 +17,8 @@ class LoginController extends Controller
 		$uid = $request->input('uid');
 		$pwd = $request->input('pwd');
 		
-		$row = Member::where('uid','=',$uid)->
-						where('pwd','=',$pwd)->first();
-		if($row)
+		$row = Member::where('uid','=',$uid)->first();
+		if($row && Hash::check($pwd, $row->pwd))
 		{
 			$request->session()->put('uid',$row->uid);
 			$request->session()->put('rank',$row->rank);

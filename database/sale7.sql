@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS `members`;
 CREATE TABLE `members` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `uid` varchar(20) NOT NULL,
-  `pwd` varchar(20) NOT NULL,
+  `pwd` varchar(255) NOT NULL,
   `name` varchar(20) NOT NULL,
   `tel` varchar(11) DEFAULT NULL,
   `rank` tinyint(4) DEFAULT 0,
@@ -33,9 +33,9 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `uid`, `pwd`, `name`, `tel`, `rank`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '1234', '관리자', '01000000000', 1, '2024-12-31 15:00:01', '2024-12-31 15:00:01'),
-(2, 'staff01', '1234', '직원01', '01011111111', 0, '2024-12-31 15:00:01', '2024-12-31 15:00:01'),
-(3, 'staff02', '1234', '직원02', '01022222222', 0, '2024-12-31 15:00:01', '2024-12-31 15:00:01');
+(1, 'admin', '$2y$12$8Il3QkLJVFgqhT6gau7fIupn6Z0E8Ga7KkE8tosmiQMPpzJ.r8imi', '관리자', '01000000000', 1, '2024-12-31 15:00:01', '2024-12-31 15:00:01'),
+(2, 'staff01', '$2y$12$T.VicHU9SQM7W1LJ.RwNFOiK0BTcyic1EOx7rIVJj3bq/0Rufu03i', '직원01', '01011111111', 0, '2024-12-31 15:00:01', '2024-12-31 15:00:01'),
+(3, 'staff02', '$2y$12$DduNymHW2iSAWjRHdOFOvecQ9LRtIRcxfRlvSjH4O2VUXMXmVS21q', '직원02', '01022222222', 0, '2024-12-31 15:00:01', '2024-12-31 15:00:01');
 
 --
 -- Table structure for `gubuns`

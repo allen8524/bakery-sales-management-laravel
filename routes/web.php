@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BestController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\CrosstabController;
@@ -44,5 +43,4 @@ Route::middleware([EnsureUserIsLoggedIn::class])->group(function () {
     Route::resource('crosstab', CrosstabController::class)->only(['index']);
     Route::resource('chart', ChartController::class)->only(['index']);
     Route::resource('picture', PictureController::class)->only(['index']);
-    Route::resource('ajax', AjaxController::class)->only(['index', 'store', 'update', 'destroy']);
 });

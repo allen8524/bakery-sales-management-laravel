@@ -158,33 +158,28 @@ class ProductController extends Controller
 	
 	public function qstring()
 	{
-		$text1 = request("text1") ? request('text1') : "";
-		$page = request("page") ? request('page') : "1";
-		
-		$tmp = $text1 ? "?text1=$text1&page=$page" : "?page=$page";
-		
-		return $tmp;
-		
+		$query = [];
+		if (request()->filled('text1')) {
+			$query['text1'] = request('text1');
+		}
+		$query['page'] = request('page') ?: '1';
+
+		return '?' . http_build_query($query);
 	}
 
 	public function jaego()
-{
-    DB::statement('drop table if exists temps;');
-    DB::statement(' create table temps (
-        id int not null auto_increment,
-        products_id int,
-        jaego int default 0,
-        primary key(id) ); ');
-    DB::statement('update products set jaego=0;');
-    DB::statement('insert into temps (products_id, jaego)
-        select products_id, sum(numi)-sum(numo)
-        from jangbus
-        group by products_id;');
-    DB::statement('update products join temps
-        on products.id=temps.products_id
-        set products.jaego=temps.jaego;');
+	{
+		DB::statement('
+			update products
+			left join (
+				select products_id, coalesce(sum(numi), 0) - coalesce(sum(numo), 0) as jaego
+				from jangbus
+				group by products_id
+			) stock on products.id = stock.products_id
+			set products.jaego = coalesce(stock.jaego, 0)
+		');
 
-    return redirect('product');
-}
+		return redirect('product');
+	}
 
 }

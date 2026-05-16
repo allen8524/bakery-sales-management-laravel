@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Member;
 
 class MemberController extends Controller
@@ -99,7 +100,7 @@ class MemberController extends Controller
 	{
 		$request->validate([
 			'uid' => 'required|max:20',
-			'pwd' => 'required|max:20',
+			'pwd' => ($row->exists ? 'nullable' : 'required') . '|max:20',
 			'name' => 'required|max:20'
 		],
 		[
@@ -119,7 +120,9 @@ class MemberController extends Controller
 		$tel = sprintf("%-3s%-4s%-4s", $tel1, $tel2, $tel3);
 		
 		$row->uid = $request->input('uid');
-		$row->pwd = $request->input('pwd');
+		if (!$row->exists || $request->filled('pwd')) {
+			$row->pwd = Hash::make($request->input('pwd'));
+		}
 		$row->name = $request->input('name');
 		$row->tel = $tel;
 		$row->rank = $request->input('rank');
@@ -129,12 +132,12 @@ class MemberController extends Controller
 	
 	public function qstring()
 	{
-		$text1 = request("text1") ? request('text1') : "";
-		$page = request("page") ? request('page') : "1";
-		
-		$tmp = $text1 ? "?text1=$text1&page=$page" : "?page=$page";
-		
-		return $tmp;
-		
+		$query = [];
+		if (request()->filled('text1')) {
+			$query['text1'] = request('text1');
+		}
+		$query['page'] = request('page') ?: '1';
+
+		return '?' . http_build_query($query);
 	}
 }

@@ -50,12 +50,12 @@ jangbus   매입/매출 구분, 거래일, 상품, 수량, 금액, 비고
 
 ## 화면 미리보기
 
-스크린샷은 `docs/images/` 경로 기준으로 정리합니다.
+스크린샷은 추후 `docs/images/` 경로에 추가할 예정입니다.
 
-![대시보드](docs/images/dashboard.png)
-![상품 관리](docs/images/product-index.png)
-![매입 매출 장부](docs/images/jangbu-index.png)
-![통계 차트](docs/images/chart.png)
+- 대시보드: `docs/images/dashboard.png`
+- 상품 관리: `docs/images/product-index.png`
+- 매입/매출 장부: `docs/images/jangbu-index.png`
+- 통계 차트: `docs/images/chart.png`
 
 ## 실행 방법
 

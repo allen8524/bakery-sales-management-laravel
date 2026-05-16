@@ -113,13 +113,6 @@
           <span>사진</span>
         </a>
       </li>
-      <li>
-        <a href="{{ route('ajax.index') }}"
-           class="bakery-sidebar-link {{ request()->routeIs('ajax.*') ? 'active' : '' }}">
-          <i class="fa fa-bolt"></i>
-          <span>비동기 조회</span>
-        </a>
-      </li>
     </ul>
     
     <div class="bakery-sidebar-footer">

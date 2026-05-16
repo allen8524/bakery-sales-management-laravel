@@ -52,7 +52,7 @@
 			<td>{{ $row->id }}</td>
 			<td><a href="{{ route('member.show', $row->id) }}{{ $tmp }}">{{ $row->name }}</a></td>
 			<td>{{ $row->uid }}</td>
-			<td>{{ $row->pwd }}</td>
+			<td>********</td>
 			<td>{{ $tel }}</td>
 			<td>{{ $rank }}</td>
 		</tr>

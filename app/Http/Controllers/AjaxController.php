@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gubun;
-use Response;
 
 class AjaxController extends Controller
 {
@@ -74,12 +73,12 @@ class AjaxController extends Controller
 	
 	public function qstring()
 	{
-		$text1 = request("text1") ? request('text1') : "";
-		$page = request("page") ? request('page') : "1";
-		
-		$tmp = $text1 ? "?text1=$text1&page=$page" : "?page=$page";
-		
-		return $tmp;
-		
+		$query = [];
+		if (request()->filled('text1')) {
+			$query['text1'] = request('text1');
+		}
+		$query['page'] = request('page') ?: '1';
+
+		return '?' . http_build_query($query);
 	}
 }

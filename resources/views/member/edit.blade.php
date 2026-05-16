@@ -34,7 +34,7 @@
 		<td width="20%" class="mycolor2"><font color="red">*</font> 암호</td>
 		<td width="80%" align="left">
 			<div class="d-inline-flex">
-				<input type="text" name="pwd" size="20" maxlength="20" value="{{ $row->pwd }}" class="form-control form-control-sm">
+				<input type="password" name="pwd" size="20" maxlength="20" value="" class="form-control form-control-sm" placeholder="변경 시에만 입력">
 			</div>
 			@error('pwd') {{ $message }} @enderror
 		</td>

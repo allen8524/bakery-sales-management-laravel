@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 			
 			$table->string('uid', 20);
-			$table->string('pwd', 20);
+			$table->string('pwd', 255);
 			$table->string('name', 20);
 			$table->string('tel', 11)->nullable();
 			$table->tinyinteger('rank')->nullable()->default(0);

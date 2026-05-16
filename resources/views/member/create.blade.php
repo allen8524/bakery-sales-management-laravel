@@ -33,7 +33,7 @@
 		<td width="20%" class="mycolor2"><font color="red">*</font> 암호</td>
 		<td width="80%" align="left">
 			<div class="d-inline-flex">
-				<input type="text" name="pwd" size="20" maxlength="20" value="{{ old('pwd') }}" class="form-control form-control-sm">
+				<input type="password" name="pwd" size="20" maxlength="20" value="{{ old('pwd') }}" class="form-control form-control-sm">
 			</div>
 			@error('pwd') {{ $message }} @enderror
 		</td>
