@@ -1,111 +1,106 @@
-# 베이커리 판매관리 시스템
+# Bakery Sales Management Laravel
 
-## 프로젝트 개요
-이 저장소는 Laravel 기반 베이커리 판매관리 프로젝트를 소개하기 위한 문서 저장소입니다.
-현재 공개된 파일 기준으로는 애플리케이션 소스코드(라우트, 컨트롤러, 모델, 마이그레이션, 뷰)가 포함되어 있지 않아, 구현 세부 동작까지는 확인할 수 없습니다.
-프로젝트 의도는 제품, 재고, 판매 데이터를 한 흐름에서 관리하는 관리자 화면 중심 웹 시스템을 학습 목적으로 구성하는 데 있습니다.
-README는 실제로 확인 가능한 범위와, 소스코드가 추가되었을 때 점검해야 할 항목을 함께 정리합니다.
-
-## 개발 목적
-- Laravel MVC 구조 학습
-- 관리자 화면 기반 데이터 관리 흐름 구현
-- 제품/재고/판매 데이터의 연결 관계 이해
-- DB 기반 CRUD 처리 경험 정리
-
-## 주요 기능
-현재 저장소에는 README 외 애플리케이션 코드가 없어 기능을 코드 단위로 검증할 수는 없습니다.
-아래 항목은 프로젝트 주제(베이커리 판매관리) 기준으로, 실제 구현 시 확인해야 하는 데이터 흐름 관점의 기능 정의입니다.
-
-- 제품 관리: 판매 대상 제품의 기본 정보(예: 제품명, 가격, 분류)를 등록·수정·조회·삭제하고, 판매/재고 데이터와 연결되는 기준 데이터를 유지
-- 재고 관리: 제품별 수량 상태를 기록·변경하고, 입출고 또는 판매 처리 시 재고 수치 반영 여부를 추적
-- 판매 관리: 판매 내역을 건별로 저장하고, 기간/제품 기준으로 조회 가능한 관리 데이터로 축적
-- 관리자 화면: 제품, 재고, 판매 데이터를 개별 화면이 아닌 운영 흐름 관점에서 확인하고 처리
+Laravel 기반 베이커리 판매관리 웹 애플리케이션입니다. 매입/매출 장부, 제품/구분 관리, 기간별 조회, 재고 계산, BEST 제품, 월별 제품 현황, 종류별 차트, 사진 목록, 사용자 관리를 구현했습니다.
 
 ## 기술 스택
-현재 저장소에는 `composer.json`, `package.json`이 없어 실제 의존성 버전과 프런트엔드 스택을 확인할 수 없습니다.
-확인 가능한 범위의 기술 스택은 아래와 같습니다.
 
-- Repository: Git, GitHub
-- Documentation: Markdown (`README.md`)
+- PHP 8.2 이상
+- Laravel 12
+- MySQL 또는 MariaDB
+- Blade Template
+- Bootstrap 5
+- jQuery
+- Chart.js
+- PhpSpreadsheet
 
-참고: Laravel/PHP, DB(MySQL/MariaDB), Blade/Bootstrap 사용 여부는 소스 파일이 추가되어야 확정할 수 있습니다.
+## 주요 기능
 
-## 프로젝트 구조
-현재 저장소의 실제 구조는 아래와 같습니다.
-
-```text
-.
-├── .gitignore
-└── README.md
-```
-
-아래 구조는 Laravel 프로젝트에서 일반적으로 확인해야 할 핵심 경로이며, 현재 저장소에는 포함되어 있지 않습니다.
-
-```text
-app/
-  Http/Controllers/
-  Models/
-database/
-  migrations/
-resources/
-  views/
-routes/
-  web.php
-```
-
-## DB 설계 요약
-현재 저장소에는 `database/migrations` 폴더 및 마이그레이션 파일이 없어 실제 테이블 구조를 확정할 수 없습니다.
-따라서 테이블명/컬럼/관계는 코드 공개 이후 마이그레이션 기준으로 정리하는 것이 정확합니다.
-
-| 테이블명 | 주요 컬럼 | 역할 |
-|---|---|---|
-| 확인 불가 | 확인 불가 | 마이그레이션 파일 미포함으로 분석 불가 |
-
-관계(1:N 등) 역시 마이그레이션의 외래키/인덱스 정의 확인 후 문서화가 필요합니다.
-
-## 핵심 구현 포인트
-현재는 구현 파일이 없어 아래 항목을 면접 설명용 체크리스트로 제시합니다.
-실제 소스코드가 추가되면 Controller/Model/View 경로와 함께 구체화하는 것을 권장합니다.
-
-### 1. 제품/재고/판매 데이터 흐름
-- 어떤 데이터를 다루는지: 제품 마스터 데이터, 제품별 재고 수량, 판매 트랜잭션 데이터
-- 어떤 Controller/Model/View와 연결되는지: 현재 코드 미포함으로 경로 확인 불가
-- 결과적으로 어떤 관리가 가능한지: 제품 기준 운영 데이터(재고/판매) 일관성 관리
-
-### 2. 관리자 화면 기반 CRUD 처리
-- 어떤 기능을 등록/조회/수정/삭제하는지: 제품, 재고, 판매 데이터의 기본 CRUD
-- 유효성 검증이나 예외 처리가 있다면 설명: 현재 코드 미포함으로 검증 로직 확인 불가
-
-### 3. 판매 데이터 확인 흐름
-- 판매 내역이 어떻게 저장/조회되는지: 현재 코드 미포함으로 저장 구조 및 조회 조건 확인 불가
-- 관리자 입장에서 어떤 정보를 확인할 수 있는지: 판매 건별 기록, 기간별 추이, 제품별 판매량(구현 시 확인 필요)
+- 로그인/로그아웃 및 사용자 등급 기반 메뉴 노출
+- 제품 구분 CRUD
+- 제품 CRUD 및 이미지 업로드
+- 매입/매출 장부 CRUD
+- 기간별 거래 조회 및 Excel 다운로드
+- 재고 재계산
+- BEST 제품 조회
+- 월별 제품별 판매 현황
+- 종류별 판매 분포 차트
+- 재고 소진/재고 부족 상품 대시보드
 
 ## 실행 방법
-현재 저장소에는 Laravel 실행에 필요한 파일(`artisan`, `composer.json`, `.env.example`)이 없어 실제 실행이 불가능합니다.
-아래는 Laravel 프로젝트 파일이 포함되었을 때의 일반 절차입니다.
 
-1. 저장소 클론
-2. `composer install`
-3. `.env` 파일 생성 및 환경값 설정
-4. `php artisan key:generate`
-5. DB 생성 및 `.env` DB 정보 입력
-6. `php artisan migrate`
-7. `php artisan serve`
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+```
 
-주의: `artisan` 파일과 마이그레이션이 포함되지 않은 현재 상태에서는 위 명령을 실행할 수 없습니다.
+`.env`의 DB 설정을 로컬 환경에 맞게 수정합니다.
 
-## 트러블슈팅 또는 학습 포인트
-현재 공개 상태에서 확인 가능한 학습 포인트는 다음과 같습니다.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sale7
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-- 프로젝트 문서와 실제 소스코드의 동기화 필요성
-- README에서 확인 가능 범위와 미확인 범위를 구분해 작성하는 방법
-- Laravel 프로젝트 공유 시 최소 포함 파일(`composer.json`, `artisan`, `routes`, `app`, `database/migrations`, `.env.example`) 점검 필요
+샘플 DB를 가져옵니다.
 
-## 향후 개선점
-현재 저장소를 실제 Laravel 프로젝트 소개 문서로 발전시키기 위한 현실적인 개선점입니다.
+```bash
+mysql -u root -p < database/sale7.sql
+```
 
-- Laravel 소스코드 전체 반영 후 README를 코드 기준으로 갱신
-- 라우트/컨트롤러/모델/마이그레이션 근거를 포함한 기능 설명 보강
-- 테이블 관계도(ERD) 또는 마이그레이션 요약 표 구체화
-- 실행 전제 조건(PHP 버전, DB 버전, 확장 모듈) 명시
-- 화면 캡처와 사용 시나리오(제품 등록→재고 반영→판매 기록) 추가
+상품 이미지가 보이도록 storage link를 생성합니다.
+
+```bash
+php artisan storage:link
+```
+
+개발 서버를 실행합니다.
+
+```bash
+php artisan serve
+```
+
+브라우저에서 접속합니다.
+
+```text
+http://localhost:8000
+```
+
+## 샘플 로그인
+
+```text
+관리자 ID: admin
+관리자 PW: 1234
+```
+
+## GitHub 업로드 전 확인 사항
+
+- `.env`는 업로드하지 않습니다.
+- `vendor`는 업로드하지 않습니다. `composer install`로 복구합니다.
+- `node_modules`는 업로드하지 않습니다. `npm install`로 복구합니다.
+- `public/storage`는 업로드하지 않습니다. `php artisan storage:link`로 생성합니다.
+- 샘플 DB는 `database/sale7.sql`에 포함했습니다.
+
+## 프로젝트 구조
+
+```text
+app/Http/Controllers    주요 컨트롤러
+app/Models              Eloquent 모델
+resources/views         Blade 화면
+routes/web.php          웹 라우트
+public/my               CSS, JS, 이미지 정적 리소스
+storage/app/public      상품 이미지 샘플 데이터
+database/sale7.sql      샘플 DB 덤프
+```
+
+## 추천 저장소 정보
+
+```text
+Repository name: bakery-sales-management-laravel
+Description: Laravel 기반 베이커리 판매관리 웹 애플리케이션
+Topics: laravel, php, mysql, bootstrap, sales-management, inventory-management, bakery
+```

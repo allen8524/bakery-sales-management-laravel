@@ -1,0 +1,904 @@
+/* ==================================================================
+   my.css – Bakery Theme
+   ================================================================== */
+
+/* 0) Font */
+@font-face {
+  font-family: 'GowunDodum';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 1) Design Tokens */
+:root {
+  --font-sans: 'GowunDodum', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans",
+               "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+  /* Surface */
+  --surface:   #fff9f2;
+  --surface-2: #fff1e2;
+  --surface-3: #ffe0c2;
+
+  /* Text */
+  --text:  #3f2a1d;
+  --muted: #a18366;
+
+  /* Brand */
+  --primary:     #c96a3c;
+  --primary-600: #b35b31;
+  --primary-700: #8f4120;
+
+  /* Accent */
+  --accent: #ffe4b8;
+
+  /* Etc */
+  --row-hover: rgba(201,106,60,.08);
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 3px 8px rgba(122,78,45,.14);
+  --shadow-md: 0 12px 28px rgba(122,78,45,.22);
+  --fs-table: clamp(0.9rem, 0.86rem + 0.2vw, 1rem);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface:   #1b1511;
+    --surface-2: #130f0b;
+    --surface-3: #241712;
+    --text:  #f4e1cf;
+    --muted: #c9aa8d;
+
+    --primary:     #f4a261;
+    --primary-600: #e68a4b;
+    --primary-700: #c96a3c;
+
+    --row-hover: rgba(244,162,97,.16);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.45);
+    --shadow-md: 0 14px 32px rgba(0,0,0,.6);
+  }
+}
+
+/* 2) Base */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+}
+
+/* 베이커리 페이지 배경 */
+body.bakery-body {
+  background:
+    radial-gradient(circle at top, #fffdf8 0, var(--surface-2) 55%, #fbd7aa 120%);
+}
+
+/* 링크 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover,
+a:focus-visible {
+  color: var(--primary-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* 3) Table – 메뉴판 느낌 */
+table {
+  width: 100%;
+  font-size: var(--fs-table);
+  text-align: center;
+  vertical-align: middle !important;
+  border-collapse: collapse;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+table thead tr {
+  background: linear-gradient(180deg, #ffeed8, #ffe0bd);
+}
+table th,
+table td {
+  padding: .65rem .75rem;
+  border-bottom: 1px solid rgba(148,116,84,.25);
+}
+table th {
+  letter-spacing: .03em;
+  font-weight: 600;
+}
+table tr:hover td {
+  background: var(--row-hover);
+}
+
+/* 4) Utils */
+.mymargin5 {
+  margin: 6px 0;
+}
+
+/* 5) Color blocks / Buttons */
+.mycolor1 {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform .12s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+.mycolor1:hover {
+  background-color: var(--primary-600) !important;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.mycolor1:active {
+  background-color: var(--primary-700) !important;
+  transform: translateY(0);
+}
+
+.mycolor2 {
+  background-color: var(--surface-3) !important;
+  color: var(--text) !important;
+}
+.mycolor3 {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+/* 6) Thumbnails – 상품 카드 */
+.mythumb_box {
+  font-size: 0.95rem;
+  text-align: center;
+  border: 1px solid rgba(201,106,60,.22);
+  background: linear-gradient(180deg, #fffaf4, #ffeeda);
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+.mythumb_box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,106,60,.42);
+}
+
+.mythumb_image,
+.mythumb_bigimage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: calc(var(--radius) - 2px);
+  object-fit: cover;
+  background: #f7e2c8;
+}
+.mythumb_image {
+  height: 160px;
+}
+.mythumb_bigimage {
+  height: 520px;
+}
+
+.mythumb_text {
+  border: 1px solid rgba(201,106,60,.22);
+  background-color: rgba(255,233,192,.9);
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  color: var(--text);
+}
+
+/* 7) Placeholder – 이미지 없음 */
+.mynopic {
+  background: linear-gradient(180deg, #f9ecda, #f3d6b5);
+  width: 98%;
+  height: 150px;
+  border: 1px dashed rgba(186,145,104,.7);
+  border-radius: var(--radius);
+  margin: 6px auto;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* 8) Motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==================================================================
+   Layout / Navbar / Card / Modal
+   ================================================================== */
+
+/* 예전 중앙 고정 레이아웃(필요시 사용) */
+.layout-shell {
+  max-width: 1100px;
+}
+
+/* 상단 네비바 (다른 페이지에서도 사용 가능) */
+.navbar-bakery {
+  background: linear-gradient(90deg, #ffe7c4, #ffd1a1);
+  border-radius: 18px;
+  padding-top: .35rem;
+  padding-bottom: .35rem;
+  box-shadow: var(--shadow-sm);
+}
+.navbar-bakery .navbar-brand {
+  color: var(--text);
+}
+.navbar-bakery .navbar-brand .brand-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.7);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+.navbar-bakery .nav-link {
+  color: var(--text);
+  font-size: .95rem;
+  padding-inline: .75rem;
+}
+.navbar-bakery .nav-link:hover,
+.navbar-bakery .nav-link:focus {
+  color: var(--primary-700);
+}
+
+/* 로그인 / 로그아웃 버튼 */
+.btn-bakery-outline {
+  border-radius: 999px;
+  border: 1px solid rgba(201,106,60,.55);
+  color: var(--primary-700);
+  background-color: rgba(255,255,255,.85);
+  padding: .25rem .8rem;
+  font-size: .86rem;
+  transition:
+    background-color .15s ease,
+    color .15s ease,
+    box-shadow .2s ease;
+}
+.btn-bakery-outline:hover {
+  background-color: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 본문 카드 */
+.content-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 로그인 모달 */
+.bg-bakery-cream {
+  background: linear-gradient(180deg, #fff7ec, #ffe3c0);
+}
+.bakery-modal-footer {
+  background-color: #fff3dd;
+}
+
+/* ==================================================================
+   Hero Slider
+   ================================================================== */
+
+.bakery-hero {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  height: 260px;
+}
+@media (max-width: 768px) {
+  .bakery-hero {
+    height: 200px;
+  }
+}
+.bakery-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease-in-out;
+}
+.bakery-hero-img.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==================================================================
+   Pagination – Bakery 스타일
+   ================================================================== */
+
+.pager-bakery {
+  --pager-bg: rgba(255,246,232,.98);
+  --pager-fg: #7c4b2a;
+  --pager-border: rgba(201,132,82,.55);
+  --pager-hover: #ffe0bd;
+  --pager-active-bg: #c96a3c;
+  --pager-active-fg: #ffffff;
+  --pager-shadow: 0 3px 8px rgba(122,78,45,.2);
+  --pager-focus: rgba(201,106,60,.28);
+  --pager-disabled: .45;
+}
+.pager-bakery .pagination {
+  gap: .25rem;
+}
+.pager-bakery .page-link {
+  border-radius: 9999px;
+  border: 1px solid var(--pager-border);
+  background: var(--pager-bg);
+  color: var(--pager-fg);
+  padding: .375rem .7rem;
+  font-size: .85rem;
+  box-shadow: var(--pager-shadow);
+  transition:
+    background .18s ease,
+    transform .12s ease,
+    box-shadow .18s ease,
+    color .18s ease,
+    border-color .18s ease;
+}
+.pager-bakery .page-link:hover {
+  background: var(--pager-hover);
+  color: var(--primary-700);
+  transform: translateY(-1px);
+}
+.pager-bakery .page-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 .22rem var(--pager-focus);
+}
+.pager-bakery .page-item.active .page-link,
+.pager-bakery .page-item.active .page-link:hover {
+  background: var(--pager-active-bg);
+  border-color: var(--pager-active-bg);
+  color: var(--pager-active-fg);
+  transform: none;
+  box-shadow: 0 4px 10px var(--pager-shadow);
+}
+.pager-bakery .page-item.disabled .page-link {
+  opacity: var(--pager-disabled);
+  pointer-events: none;
+}
+.pager-bakery .page-link.icon {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pager-bakery .page-link.icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==================================================================
+   Sidebar Layout – 다크 초콜릿 사이드바 + 스무스 토글
+   ================================================================== */
+
+/* 전체 레이아웃 컨테이너 */
+.bakery-layout {
+  min-height: 100vh;
+  transition: grid-template-columns .28s ease-in-out;
+}
+
+/* 사이드바 */
+.bakery-sidebar {
+  background: #4b2b16;      /* 다크 초콜릿 */
+  color: #fdf7f0;
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  transform: translateX(0);
+  transition:
+    transform .28s ease-in-out,
+    box-shadow .18s ease-in-out;
+
+  /* 왼쪽 사이드바 고정 + 자체 스크롤 */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* 브랜드 영역 */
+.bakery-sidebar-brand {
+  height: 64px;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.bakery-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #f7e0af;
+  color: #5b3212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: .75rem;
+}
+.bakery-brand-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+/* 섹션 라벨 */
+.bakery-sidebar-section {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 1.25rem 1.25rem .5rem;
+  color: #e0c2a3;
+}
+
+/* 메뉴 링크 */
+.bakery-sidebar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bakery-sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: .45rem 1.25rem;
+  font-size: .9rem;
+  color: #fdf7f0;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    color .15s ease;
+}
+.bakery-sidebar-link i {
+  width: 18px;
+  margin-right: .65rem;
+}
+.bakery-sidebar-link:hover {
+  background: #5a341b;
+  color: #ffffff;
+}
+.bakery-sidebar-link.active {
+  background: #4b2b16;
+  border-left-color: #f2a65a;
+  color: #ffffff;
+}
+
+/* 사이드바 하단 */
+.bakery-sidebar-footer {
+  margin-top: auto;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  font-size: .8rem;
+}
+
+/* 오른쪽 상단바 고정 */
+.bakery-main {
+  position: relative;  /* 스티키 기준이 될 컨테이너 */
+}
+
+.bakery-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;              /* 내용/배너 위에 올라오게 */
+  padding: 0.75rem 1rem;
+  background: var(--surface); /* 배경색 안 비치게 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.bakery-topbar-title {
+  font-size: .95rem;
+  color: #8b5a2b;
+}
+.bakery-topbar-toggle i {
+  color: #8b5a2b;
+  font-size: 1.1rem;
+}
+.bakery-main-inner {
+  padding: 1.5rem;
+}
+
+/* 토글: .sidebar-hidden 이면 사이드바 슬라이드 아웃 */
+.bakery-layout.sidebar-hidden .bakery-sidebar {
+  transform: translateX(-100%);
+}
+
+/* 데스크톱(>=992px) – grid 레이아웃 */
+@media (min-width: 992px) {
+  .bakery-layout {
+    display: grid !important;
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+  .bakery-layout.sidebar-hidden {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+}
+
+/* 모바일(<992px) – 메인 영역 플렉스 */
+@media (max-width: 991.98px) {
+  .bakery-layout {
+    display: flex;
+  }
+  .bakery-main {
+    flex: 1 1 auto;
+  }
+}
+
+/* ==================================================================
+   상품 카드 / 달력 위젯
+   ================================================================== */
+
+/* ========= 상품 카드 (살짝 더 베이커리 톤) ========= */
+.stock-card {
+  background: #fff7f0;                 /* 크림색 */
+  border-color: #f4c9a1 !important;    /* 쿠키색 보더 */
+  transition: transform .12s ease, box-shadow .12s ease, background .12s;
+}
+.stock-card:hover {
+  transform: translateY(-2px);
+  background: #ffeede;                 /* 살짝 더 진한 크림 */
+  box-shadow: 0 6px 16px rgba(204,140,89,.18);
+}
+
+/* ========= 하단 달력/시간 위젯 ========= */
+.bakery-calendar {
+  border-radius: 24px;
+  background: linear-gradient(135deg, #fff5e7, #fbe0bc); /* 크림 + 연브라운 그라데이션 */
+  padding: 1.5rem;
+  border: 1px solid #e7b27c; /* 브라운 테두리 */
+}
+
+.bakery-calendar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bc-time-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.bc-time-card {
+  flex: 1 1 160px;
+  background: #fffaf2;
+  border-radius: 22px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,.04);
+  border: 1px solid rgba(222,170,116,.7); /* 연브라운 */
+}
+
+.bc-time-main {
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .03em;
+  color: #4b3424;          /* 진한 브라운 */
+}
+
+.bc-time-sub {
+  margin-top: .35rem;
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #b38b6a;          /* 연한 브라운 */
+}
+
+.bc-today-row {
+  border-radius: 18px;
+  background: #fffaf3;
+  padding: .9rem 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.03);
+  border: 1px dashed #e7b27c; /* 브라운 점선 */
+}
+
+.bc-week-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.bc-day-card {
+  flex: 1 1 calc(100%/7 - .5rem);
+  min-width: 60px;
+  background: #fff7ec;
+  border-radius: 16px;
+  padding: .5rem .25rem;
+  text-align: center;
+  font-size: .75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.03);
+  border: 1px solid rgba(222,170,116,.5); /* 브라운 계열 테두리 */
+}
+
+.bc-day-name {
+  text-transform: uppercase;
+  color: #b8895e; /* 요일 텍스트 브라운 */
+}
+
+.bc-day-date {
+  font-weight: 600;
+  margin-top: .1rem;
+  color: #4b3424;
+}
+
+/* 오늘 날짜 강조 */
+.bc-day-card.is-today {
+  background: #f4c89d;
+  border-color: #d08c4e;
+  box-shadow: 0 3px 8px rgba(208,140,78,.35);
+}
+
+@media (max-width: 576px) {
+  .bc-time-main {
+    font-size: 2.1rem;
+  }
+}
+
+
+/* ==================================================================
+   미니 계산기 (베이커리 느낌)
+   ================================================================== */
+
+/* ==================================================================
+   미니 계산기 (브라운 베이커리 톤)
+   ================================================================== */
+
+.bc-calc {
+  min-width: 150px;
+  max-width: 100%;    /* 칼럼 전체 사용 */
+  height: 100%;       /* col 높이만큼 늘리기 */
+  background: linear-gradient(145deg, #fff5e7, #fbe0bc); /* 크림 + 연브라운 */
+  border-radius: 22px;
+  padding: 0.75rem 0.85rem 0.9rem;
+  color: #4b3424;     /* 진한 브라운 텍스트 */
+  box-shadow: 0 6px 18px rgba(140,96,60,.25);
+  border: 1px solid #e7b27c;  /* 브라운 테두리 */
+}
+
+.bc-calc-display {
+  width: 100%;
+  min-height: 40px;
+  padding: .35rem .6rem;
+  border-radius: 14px;
+  background: #fffaf2;        /* 아이보리 크림 */
+  text-align: right;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  color: #4b3424;
+  box-shadow: inset 0 0 0 1px rgba(222,170,116,.6);
+}
+
+.bc-calc-grid {
+  margin-top: .55rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .35rem;
+}
+
+.bc-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: .4rem 0;
+  font-size: .8rem;
+  background: #fff8f0;                 /* 기본 버튼: 크림 */
+  color: #5b4030;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+  border-bottom: 2px solid #e3c4a6;    /* 약간 입체감 */
+  transition: background .12s, transform .06s, box-shadow .06s;
+}
+.bc-btn:hover {
+  background: #ffe8cf;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(140,96,60,.25);
+}
+.bc-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0,0,0,.12);
+}
+
+/* 연산자 버튼 (+, -, ×, ÷ 등) */
+.bc-btn-op {
+  background: #f7e0c2;             /* 연브라운 */
+  border-bottom-color: #e2b388;
+}
+.bc-btn-op:hover {
+  background: #f3d0ab;
+}
+
+/* AC, C 같은 기능 버튼 */
+.bc-btn-fn {
+  background: #f3e4d0;             /* 조금 더 옅은 브라운 */
+  color: #6a4630;
+  border-bottom-color: #e0c19a;
+}
+.bc-btn-fn:hover {
+  background: #edd6bf;
+}
+
+/* = 버튼 */
+.bc-btn-eq {
+  background: #e9b27a;             /* 포인트 브라운 오렌지 */
+  color: #fffaf5;
+  border-bottom-color: #d4924f;
+}
+.bc-btn-eq:hover {
+  background: #e3a463;
+}
+
+/* 계산기 내부 인풋/텍스트 크기 */
+.bc-calc .form-control {
+  padding: .15rem .4rem;
+  font-size: .75rem;
+}
+.bc-calc .small {
+  font-size: .75rem;
+}
+
+@media (max-width: 576px) {
+  .bc-calc {
+    max-width: 100%;
+  }
+}
+
+/* ===== 우측 하단 스크롤 버튼 ===== */
+.bakery-scroll-controls {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1200;
+}
+
+.bakery-scroll-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.bakery-scroll-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
+}
+
+.bakery-scroll-btn:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+.bc-panel {
+  background: linear-gradient(135deg, var(--surface-2), var(--surface-3));
+  border-radius: 1.25rem;
+  padding: 1.1rem 1.3rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+}
+
+.bc-panel-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.bc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bc-title-main {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.bc-title-sub {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.bc-clock-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.bc-clock-hour,
+.bc-clock-minute {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.bc-clock-colon {
+  font-size: 1.4rem;
+  transform: translateY(-1px);
+}
+
+.bc-clock-ampm {
+  font-size: 0.7rem;
+  margin-left: 0.15rem;
+  letter-spacing: 0.12em;
+}
+
+.bc-today-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.bc-today-date {
+  font-weight: 600;
+}
+
+.bc-today-dow {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.bc-week-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+}
+
+.bc-day-card {
+  flex: 1;
+  border-radius: 0.9rem;
+  padding: 0.25rem 0.3rem;
+  text-align: center;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.9);
+}
+
+.bc-day-name {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.bc-day-date {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
