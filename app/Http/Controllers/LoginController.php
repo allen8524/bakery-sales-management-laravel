@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Member;
 
@@ -12,28 +11,34 @@ class LoginController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function check()
+    public function check(Request $request)
     {
-		$uid = request('uid');
-		$pwd = request('pwd');
+		$uid = $request->input('uid');
+		$pwd = $request->input('pwd');
 		
 		$row = Member::where('uid','=',$uid)->
 						where('pwd','=',$pwd)->first();
 		if($row)
 		{
-			session()->put('uid',$row->uid);
-			session()->put('rank',$row->rank);
+			$request->session()->put('uid',$row->uid);
+			$request->session()->put('rank',$row->rank);
+			$request->session()->regenerate();
+
+			return redirect()->route('home');
 		}			
 		
-		return view('main');
+		return redirect()
+			->route('home')
+			->with('login_error', '아이디 또는 비밀번호가 올바르지 않습니다.');
     }
 	
-	public function logout()
+	public function logout(Request $request)
 	{
-		session()->forget('uid');
-		session()->forget('rank');
+		$request->session()->forget('uid');
+		$request->session()->forget('rank');
+		$request->session()->regenerateToken();
 		
-		return view('main');
+		return redirect()->route('home');
 	}
 }
 ?>

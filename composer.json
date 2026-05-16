@@ -1,11 +1,14 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "allen8524/bakery-sales-management-laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Laravel based bakery sales and inventory management application",
     "keywords": [
         "laravel",
-        "framework"
+        "bakery",
+        "sales-management",
+        "inventory-management",
+        "mysql"
     ],
     "license": "MIT",
     "require": {

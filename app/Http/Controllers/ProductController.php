@@ -95,7 +95,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-		$row = Product::find($id);
+		$row = Product::findOrFail($id);
 		$this->save_row($request, $row);
 		
 		$tmp = $this->qstring();
@@ -107,7 +107,9 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        Product::find($id)->delete();
+        $row = Product::findOrFail($id);
+		$this->deleteProductImage($row->pic);
+		$row->delete();
 		
 		$tmp = $this->qstring();
 		return redirect('product' . $tmp);
@@ -118,7 +120,8 @@ class ProductController extends Controller
 		$request->validate([
 			'gubuns_id' => 'required|numeric',
 			'name' => 'required|max:20',
-			'price' => 'required|numeric'
+			'price' => 'required|numeric',
+			'pic' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
 		],
 		[
 			'gubuns_id.required' => '구분명은 필수입력입니다.',
@@ -132,14 +135,25 @@ class ProductController extends Controller
 		$row->price = $request->input('price');
 		$row->jaego = $request->input('jaego');
 		
-	if ($request->hasFile('pic')) {
-		$pic = $request->file('pic');
+		if ($request->hasFile('pic')) {
+			$this->deleteProductImage($row->pic);
 
-		$path = $pic->store('product_img', 'public');
-		$row->pic = basename($path);
-	}
+			$pic = $request->file('pic');
+
+			$path = $pic->store('product_img', 'public');
+			$row->pic = basename($path);
+		}
 		
 		$row->save();
+	}
+
+	private function deleteProductImage($pic)
+	{
+		if (!$pic) {
+			return;
+		}
+
+		Storage::disk('public')->delete('product_img/' . basename($pic));
 	}
 	
 	public function qstring()

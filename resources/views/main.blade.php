@@ -117,14 +117,7 @@
         <a href="{{ route('ajax.index') }}"
            class="bakery-sidebar-link {{ request()->routeIs('ajax.*') ? 'active' : '' }}">
           <i class="fa fa-bolt"></i>
-          <span>Ajax</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{ route('test.index') }}"
-           class="bakery-sidebar-link {{ request()->routeIs('test.*') ? 'active' : '' }}">
-          <i class="fa fa-vial"></i>
-          <span>Test</span>
+          <span>비동기 조회</span>
         </a>
       </li>
     </ul>
@@ -141,7 +134,7 @@
           <i class="fa fa-circle text-success"></i>
           <span class="ms-1">{{ session('uid') }}님 접속중</span>
         </div>
-        <a href="{{ url('login/logout') }}" class="btn btn-sm btn-outline-light w-100">
+        <a href="{{ route('login.logout') }}" class="btn btn-sm btn-outline-light w-100">
           <i class="fa fa-sign-out-alt"></i> 로그아웃
         </a>
       @endif
@@ -172,6 +165,12 @@
     </header>
 
     <main class="bakery-main-inner">
+      @if (session('login_error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ session('login_error') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
 
       @php
         $heroImages = [
@@ -208,7 +207,7 @@
       </div>
 
       <div class="modal-body bg-bakery-cream">
-        <form name="form_login" method="post" action="{{ url('login/check') }}">
+        <form name="form_login" method="post" action="{{ route('login.check') }}">
           @csrf
           <table class="table table-borderless mymargin5 mb-0">
             <tr>

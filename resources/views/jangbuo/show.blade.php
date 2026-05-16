@@ -3,7 +3,7 @@
 <br>
 <div class="alert mycolor1" role="alert">매출</div>
 
-<form name="form1" method="post" action="">
+<div>
 
 <table class="table table-sm table-bordered mymargin5">
 	<tr>
@@ -34,7 +34,7 @@
 
 <div align="center">
 	<a href="{{ route('jangbuo.edit', $row->id) }}{{ $tmp }}" class="btn btn-sm mycolor1">수정</a>
-	<form action="{{ route('product.destroy', $row->id) }}">
+	<form method="post" action="{{ route('jangbuo.destroy', $row->id) }}">
 		@csrf
 		@method('DELETE')
 		<button type="submit" class="btn btn-sm mycolor1"
@@ -43,5 +43,5 @@
 	<input type="button" value="이전화면" class="btn btn-sm mycolor1" onClick="history.back();">
 </div>
 
-</form>
+</div>
 @endsection
