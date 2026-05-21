@@ -1,0 +1,154 @@
+name: Capture bakery screenshots
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/capture-bakery-screenshots.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: sale7
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo_mysql, bcmath, gd, zip
+          coverage: none
+
+      - name: Prepare Laravel environment
+        run: |
+          cat > .env <<'EOF'
+          APP_NAME="Bakery Sales Management"
+          APP_ENV=local
+          APP_KEY=
+          APP_DEBUG=true
+          APP_URL=http://127.0.0.1:8000
+
+          LOG_CHANNEL=stack
+          LOG_LEVEL=debug
+
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=sale7
+          DB_USERNAME=root
+          DB_PASSWORD=root
+
+          SESSION_DRIVER=file
+          CACHE_STORE=file
+          QUEUE_CONNECTION=sync
+          EOF
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Generate app key
+        run: php artisan key:generate --ansi
+
+      - name: Import sample database
+        run: mysql -h 127.0.0.1 -P 3306 -uroot -proot < database/sale7.sql
+
+      - name: Link storage
+        run: php artisan storage:link || true
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Start Laravel server
+        run: |
+          php artisan serve --host=127.0.0.1 --port=8000 > storage/logs/screenshot-server.log 2>&1 &
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:8000 > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat storage/logs/screenshot-server.log
+          exit 1
+
+      - name: Capture screenshots
+        run: |
+          mkdir -p docs/images
+          cat > capture-bakery-screenshots.mjs <<'EOF'
+          import { chromium } from 'playwright';
+
+          const baseUrl = 'http://127.0.0.1:8000';
+          const browser = await chromium.launch({ headless: true });
+          const page = await browser.newPage({
+            viewport: { width: 1440, height: 1000 },
+            deviceScaleFactor: 1
+          });
+
+          async function waitForPage() {
+            await page.waitForLoadState('domcontentloaded');
+            await page.waitForTimeout(1200);
+          }
+
+          async function login() {
+            await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+            await waitForPage();
+            const loginButton = page.locator('[data-bs-target="#exampleModal"]');
+            if (await loginButton.count()) {
+              await loginButton.first().click();
+              await page.fill('input[name="uid"]', 'admin');
+              await page.fill('input[name="pwd"]', '1234');
+              await Promise.all([
+                page.waitForNavigation({ waitUntil: 'domcontentloaded' }).catch(() => null),
+                page.locator('.modal-footer button:has-text("확인")').click()
+              ]);
+              await waitForPage();
+            }
+          }
+
+          async function capture(path, output) {
+            await page.goto(`${baseUrl}${path}`, { waitUntil: 'domcontentloaded' });
+            await waitForPage();
+            await page.screenshot({ path: output, fullPage: false });
+          }
+
+          await login();
+          await capture('/', 'docs/images/dashboard.png');
+          await capture('/product', 'docs/images/product-index.png');
+          await capture('/jangbuo', 'docs/images/jangbu-index.png');
+          await capture('/chart', 'docs/images/chart.png');
+
+          await browser.close();
+          EOF
+          node capture-bakery-screenshots.mjs
+
+      - name: Commit screenshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/images/dashboard.png docs/images/product-index.png docs/images/jangbu-index.png docs/images/chart.png
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit."
+          else
+            git commit -m "Add bakery project screenshots"
+            git push
+          fi
